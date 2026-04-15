@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportly - Automated Client Reporting for Agencies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">Reportly</div>
+            <a href="#pricing" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition">
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                        Stop Spending Fridays on Client Reports
+                    </h1>
+                    <p class="text-xl text-indigo-100 mb-8">
+                        Reportly automatically pulls data from Google Ads, Meta, Analytics & more. 
+                        Generates beautiful weekly reports in minutes. Clients love it.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#pricing" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold text-center hover:bg-gray-100 transition">
+                            Start Free Trial
+                        </a>
+                        <a href="#demo" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-center hover:bg-white/10 transition">
+                            See Demo
+                        </a>
+                    </div>
+                    <p class="mt-4 text-sm text-indigo-200">No credit card required • 14-day free trial</p>
+                </div>
+                <div class="flex-1 floating">
+                    <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
+                        <div class="text-sm mb-2 text-indigo-200">Weekly Report Preview</div>
+                        <div class="bg-white rounded-lg p-4 text-gray-800">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="font-semibold">Client: Acme Corp</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">This Week</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4 mb-4">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-indigo-600">$12,450</div>
+                                    <div class="text-xs text-gray-500">Revenue</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-600">+23%</div>
+                                    <div class="text-xs text-gray-500">vs Last Week</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold">4.2x</div>
+                                    <div class="text-xs text-gray-500">ROAS</div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span>Google Ads</span>
+                                    <span class="text-green-600">+18% conversions</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>Meta Ads</span>
+                                    <span class="text-green-600">+31% leads</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span>Analytics</span>
+                                    <span class="text-green-600">+12% sessions</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Sound Familiar?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-red-50 rounded-xl p-6 border border-red-100">
+                    <div class="text-4xl mb-4">😤</div>
+                    <h3 class="font-semibold mb-2">Friday = Report Day</h3>
+                    <p class="text-gray-600">You spend 2-4 hours copying data from 5 different platforms into a spreadsheet nobody reads.</p>
+                </div>
+                <div class="bg-red-50 rounded-xl p-6 border border-red-100">
+                    <div class="text-4xl mb-4">😓</div>
+                    <h3 class="font-semibold mb-2">Clients Don't Understand It</h3>
+                    <p class="text-gray-600">They glaze over at the numbers. You spend the call explaining what everything means.</p>
+                </div>
+                <div class="bg-red-50 rounded-xl p-6 border border-red-100">
+                    <div class="text-4xl mb-4">😰</div>
+                    <h3 class="font-semibold mb-2">Errors Slip Through</h3>
+                    <p class="text-gray-600">Manual data entry = typos. Typos = awkward client calls and damaged credibility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4">How Reportly Works</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Three steps to a client report that impresses</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">1</div>
+                    <h3 class="font-semibold mb-2">Connect Your Sources</h3>
+                    <p class="text-gray-600 text-sm">Link Google Ads, Meta, Google Analytics, LinkedIn, TikTok, and 20+ more platforms in 2 minutes.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">2</div>
+                    <h3 class="font-semibold mb-2">Set Your Schedule</h3>
+                    <p class="text-gray-600 text-sm">Choose which clients get reports and when. Weekly, bi-weekly, or monthly - you're in control.</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">3</div>
+                    <h3 class="font-semibold mb-2">Reports Send Automatically</h3>
+                    <p class="text-gray-600 text-sm">Beautiful, branded reports delivered to client inboxes every Monday morning. You're done before coffee.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Connects With Everything</h2>
+            <p class="text-gray-600 mb-12">We add new integrations every week based on customer requests</p>
+            <div class="grid grid-cols-3 md:grid-cols-6 gap-6">
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">Google Ads</span>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">Meta Ads</span>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">Google Analytics</span>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">LinkedIn</span>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">TikTok</span>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
+                    <span class="font-semibold text-gray-700">+ 20 more</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Agencies Love Reportly</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-indigo-100 rounded-full w-12 h-12 flex items-center justify-center text-indigo-600 font-bold">JD</div>
+                        <div class="ml-4">
+                            <div class="font-semibold">Jake Davidson</div>
+                            <div class="text-gray-500 text-sm">Owner, Digital Boost Agency</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"I used to dread Fridays. Now I spend that time on actual strategy work. Reportly saves me 4 hours every week and my clients love getting them."</p>
+                    <div class="mt-4 flex text-yellow-400">★★★★★</div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-indigo-100 rounded-full w-12 h-12 flex items-center justify-center text-indigo-600 font-bold">SK</div>
+                        <div class="ml-4">
+                            <div class="font-semibold">Sarah Kim</div>
+                            <div class="text-gray-500 text-sm">Marketing Director, Spark Creative</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The reports look so professional now. One client said it's the clearest reporting they've ever seen. Worth every penny just for the credibility boost."</p>
+                    <div class="mt-4 flex text-yellow-400">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-4">Simple, Transparent Pricing</h2>
+            <p class="text-center text-gray-600 mb-12">Start free. Upgrade when you're ready.</p>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Starter Plan -->
+                <div class="border-2 border-gray-200 rounded-xl p-8 hover:border-indigo-300 transition cursor-pointer" id="starter-card">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold">Starter</h3>
+                            <p class="text-gray-500 text-sm">For solo consultants</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-4xl font-bold text-indigo-600">$49</div>
+                            <div class="text-gray-500">/month</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Up to 5 client reports</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>3 data source connections</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>White-label reports</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>14-day free trial</span>
+                        </li>
+                    </ul>
+                    <button id="checkout-starter" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                        Start Free Trial
+                    </button>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="border-2 border-indigo-500 rounded-xl p-8 relative bg-indigo-50/30" id="pro-card">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-indigo-600 text-white text-sm px-4 py-1 rounded-full">Most Popular</span>
+                    </div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold">Pro</h3>
+                            <p class="text-gray-500 text-sm">For growing agencies</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-4xl font-bold text-indigo-600">$149</div>
+                            <div class="text-gray-500">/month</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>Unlimited</strong> client reports</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>Unlimited</strong> data sources</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Custom branding</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Priority support</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>14-day free trial</span>
+                        </li>
+                    </ul>
+                    <button id="checkout-pro" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                        Start Free Trial
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-gray-500 text-sm mt-8">
+                Annual billing available (2 months free) • Cancel anytime • No setup fees
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 class="font-semibold mb-2">How does the free trial work?</h3>
+                    <p class="text-gray-600">Start with full access to your chosen plan for 14 days. No credit card required. If you don't continue, your account automatically stays on our free tier.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 class="font-semibold mb-2">What data sources do you support?</h3>
+                    <p class="text-gray-600">Google Ads, Google Analytics 4, Meta Ads, LinkedIn Ads, TikTok Ads, Microsoft Ads, Twitter/X Ads, Pinterest Ads, YouTube, Search Console, Shopify, Stripe, and more. We're adding new integrations weekly.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 class="font-semibold mb-2">Can I white-label the reports?</h3>
+                    <p class="text-gray-600">Yes! Add your logo, choose your colors, and reports look like they came from your agency. Perfect for making a professional impression.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <h3 class="font-semibold mb-2">What if I have technical questions?</h3>
+                    <p class="text-gray-600">Our Pro plan includes priority email support. We'll help you set up integrations and answer any questions within 24 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center text-white">
+            <h2 class="text-3xl font-bold mb-4">Ready to Stop Dreading Fridays?</h2>
+            <p class="text-xl text-indigo-100 mb-8">Join 200+ agencies already saving hours every week</p>
+            <a href="#pricing" class="inline-block bg-white text-indigo-600 px-10 py-4 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Get Started Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-2xl font-bold text-white mb-4 md:mb-0">Reportly</div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-sm">
+                © 2026 Reportly. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md mx-4 text-center">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold mb-2">You're on the list!</h3>
+            <p class="text-gray-600 mb-6">Thanks for your interest in Reportly. We're launching soon and you'll be among the first to know.</p>
+            <button id="close-modal" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                Got it!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simple email capture before Stripe checkout
+        const starterBtn = document.getElementById('checkout-starter');
+        const proBtn = document.getElementById('checkout-pro');
+        const modal = document.getElementById('success-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        // Store selected plan
+        let selectedPlan = null;
+
+        function showEmailCapture(plan) {
+            selectedPlan = plan;
+            modal.classList.remove('hidden');
+        }
+
+        starterBtn.addEventListener('click', () => showEmailCapture('starter'));
+        proBtn.addEventListener('click', () => showEmailCapture('pro'));
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            // In production, redirect to Stripe checkout here
+            alert(`Thanks! We'll email you at [your email] when your ${selectedPlan} trial is ready.`);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
