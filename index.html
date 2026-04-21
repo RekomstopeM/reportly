@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportly - Automated Client Reporting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">Reportly</div>
+            <a href="#pricing" class="bg-indigo-600 text-white px-6 py-2 rounded-lg">Get Started</a>
+        </div>
+    </nav>
 
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Stop Spending Fridays on Client Reports</h1>
+            <p class="text-xl text-indigo-100 mb-8">Reportly automatically pulls data from Google Ads, Meta, Analytics & more.</p>
+            <a href="#pricing" class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold inline-block">Start Free Trial</a>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Simple Pricing</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border-2 border-gray-200 rounded-xl p-8">
+                    <h3 class="text-xl font-bold">Starter</h3>
+                    <div class="text-4xl font-bold text-indigo-600 my-4">$49<span class="text-base font-normal">/month</span></div>
+                    <ul class="space-y-2 mb-8">
+                        <li>Up to 5 client reports</li>
+                        <li>3 data sources</li>
+                        <li>White-label reports</li>
+                    </ul>
+                    <button id="checkout-starter" class="w-full bg-indigo-600 text-white py-3 rounded-lg">Start Free Trial</button>
+                </div>
+                <div class="border-2 border-indigo-500 rounded-xl p-8 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-600 text-white text-sm px-4 py-1 rounded-full">Most Popular</div>
+                    <h3 class="text-xl font-bold">Pro</h3>
+                    <div class="text-4xl font-bold text-indigo-600 my-4">$149<span class="text-base font-normal">/month</span></div>
+                    <ul class="space-y-2 mb-8">
+                        <li>Unlimited client reports</li>
+                        <li>Unlimited data sources</li>
+                        <li>Custom branding</li>
+                    </ul>
+                    <button id="checkout-pro" class="w-full bg-indigo-600 text-white py-3 rounded-lg">Start Free Trial</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center">
+        <p>&copy; 2026 Reportly. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const API_URL = '/api';
+        const PRICE_IDS = { starter: 'price_1TMuInHUE9yJL14pwFsC3L7S', pro: 'price_1TMuJnHUE9yJL14pH7E5dHH6' };
+
+        async function startCheckout(plan) {
+            try {
+                const response = await fetch(API_URL + '/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ priceId: PRICE_IDS[plan] })
+                });
+                if (!response.ok) throw new Error('Failed');
+                const { sessionId } = await response.json();
+                const stripe = Stripe('pk_live_51TMWSiHUE9yJL14p9Os2AaLGH0cGnKqi0g6eLhYcoO0Yyn7xwb9xWNq9s05ilBs1DFIq7B8Wnnv821Ne7ov5gCL100x661qnPo');
+                await stripe.redirectToCheckout({ sessionId });
+            } catch (err) {
+                alert('Checkout error. Please try again.');
+            }
+        }
+
+        document.getElementById('checkout-starter').onclick = () => startCheckout('starter');
+        document.getElementById('checkout-pro').onclick = () => startCheckout('pro');
+    </script>
+</body>
+</html>
