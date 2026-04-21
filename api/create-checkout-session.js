@@ -9,8 +9,8 @@ module.exports = async (req, res) => {
             mode: 'subscription',
             payment_method_types: ['card'],
             line_items: [{ price: priceId, quantity: 1 }],
-            success_url: 'https://reportly-arni3l1jy-rekomstopems-projects.vercel.app/success.html?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url: 'https://reportly-arni3l1jy-rekomstopems-projects.vercel.app/cancel.html'
+            success_url: 'https://reportly-theta-bay.vercel.app/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'https://reportly-theta-bay.vercel.app/cancel.html'
         });
         res.status(200).json({ sessionId: session.id });
     } catch (err) {
