@@ -1,3 +1,3 @@
-module.exports = async (req, res) => {
-    res.status(200).json({ test: 'API is working' });
-};
+export default function handler(req, res) {
+    res.status(200).json({ test: 'API works' });
+}
