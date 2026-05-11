@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-white shadow-sm py-4 text-center">
+        <span class="text-2xl font-bold text-indigo-600">Reportly</span>
+    </nav>
+
+    <section class="py-20 text-center">
+        <h1 class="text-4xl font-bold mb-4">Automated Client Reports</h1>
+        <p class="text-gray-600 mb-8">Stop wasting hours on reporting.</p>
+    </section>
+
+    <section id="pricing" class="max-w-3xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Pricing</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="border rounded-xl p-6 text-center">
+                <h3 class="text-xl font-bold">Starter</h3>
+                <p class="text-4xl font-bold my-4">$49<span class="text-base font-normal">/mo</span></p>
+                <button id="checkout-starter" class="bg-indigo-600 text-white px-6 py-3 rounded-lg w-full">Start Free Trial</button>
+            </div>
+            <div class="border-2 border-indigo-500 rounded-xl p-6 text-center">
+                <h3 class="text-xl font-bold">Pro</h3>
+                <p class="text-4xl font-bold my-4">$149<span class="text-base font-normal">/mo</span></p>
+                <button id="checkout-pro" class="bg-indigo-600 text-white px-6 py-3 rounded-lg w-full">Start Free Trial</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 py-8">© 2026 Reportly</footer>
+
+    <script>
+        const API_URL = '/api';
+        const PRICE_IDS = { starter: 'price_1TMuInHUE9yJL14pwFsC3L7S', pro: 'price_1TMuJnHUE9yJL14pH7E5dHH6' };
+
+        async function startCheckout(plan) {
+            try {
+                const res = await fetch(API_URL + '/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ priceId: PRICE_IDS[plan] })
+                });
+                const data = await res.json();
+                if (!data.sessionId) throw new Error('No session');
+                const stripe = Stripe('pk_live_51TMWSiHUE9yJL14p9Os2AaLGH0cGnKqi0g6eLhYcoO0Yyn7xwb9xWNq9s05ilBs1DFIq7B8Wnnv821Ne7ov5gCL100x661qnPo');
+                await stripe.redirectToCheckout({ sessionId: data.sessionId });
+            } catch (e) {
+                alert('Checkout error. Try again.');
+            }
+        }
+
+        document.getElementById('checkout-starter').onclick = () => startCheckout('starter');
+        document.getElementById('checkout-pro').onclick = () => startCheckout('pro');
+    </script>
+</body>
+</html>
